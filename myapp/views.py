@@ -22,3 +22,6 @@ def about(request):
 
 def test_form(request):
     return render(request, "test_form.html")
+
+def about_me(request):
+    return render(request, "about_me.html")
