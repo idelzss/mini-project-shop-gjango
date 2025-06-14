@@ -1,5 +1,6 @@
 from django.contrib import admin
 
-from .models import MyModel
+from .models import administration, cart
 
-admin.register(MyModel)
+admin.register(administration)
+admin.register(cart)

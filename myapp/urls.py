@@ -10,4 +10,7 @@ urlpatterns = [
     path('test_form/', views.test_form, name="test_form"),
     path('test3/', views.test3, name="test3"),
     path('about_me/', views.about_me, name="about me"),
+    path('register/', views.register, name="register"),
+    path('login/', views.login, name="login"),
+    path('admin_form/', views.admin, name="admin"),
 ]
