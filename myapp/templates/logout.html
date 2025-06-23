@@ -1,0 +1,19 @@
+{% load static %}
+
+<head>
+<link rel="stylesheet" href="{% static 'css/logout.css' %}">
+  <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+    <div class="container py-5">
+        <h1>Logout</h1>
+        <form method="POST" action="{% url 'logout' %}" onsubmit="return confirmLogout()">
+            {% csrf_token %}
+            <div class="button-wrapper">
+                <a href="/main/" class="logout-button">Logout</a>
+            </div>
+        </form>
+        <p>You have been successfully logged out</p>
+        <a href="{% url 'login' %}" class="btn btn-primary">Login Again</a>
+    </div>
+</body>

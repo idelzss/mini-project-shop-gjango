@@ -9,6 +9,7 @@
 
 </head>
 <body>
+
     <header>
         <h1>GoITeens Shop</h1>
         <nav>
@@ -17,6 +18,13 @@
                 <li><a href="#">Shop</a> </li>
                 <li><a href="/about">About us</a> </li>
                 <li><a href="#">Contact us</a> </li>
+                {% if user.is_authenticated != True %}
+                    <li><a href="/register/">Register</a></li>
+                    <li><a href="/login/">Login</a></li>
+                {% endif %}
+                {% if user.is_authenticated %}
+                    <li><a href="{% url 'logout' %}">Logout</a></li>
+                {% endif %}
             </ul>
         </nav>
     </header>
@@ -26,20 +34,51 @@
         <ul>
             <li>
                 <img src="{% static 'monitor.png' %}" alt="Product 1">
-                <h3>Product 1</h3>
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+                <h3>monitor</h3>
+                <p>monitor</p>
+                <h4>Price: 5000₴</h4>
                 <button>Add to Cart</button>
             </li>
             <li>
-                <img src="{% static 'monitor.png' %}" alt="Product 2">
-                <h3>Product 2</h3>
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+                <img src="{% static 'mouse.png' %}" alt="Product 2">
+                <h3>HATOR Quasar 3 Ultra 8K Wireless White</h3>
+                <p>HATOR Quasar 3 Ultra 8K Wireless White</p>
+                <h4>Price: 2223₴</h4>
                 <button>Add to Cart</button>
             </li>
             <li>
-                <img src="{% static 'monitor.png' %}" alt="Product 3">
-                <h3>Product 3</h3>
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+                <img src="{% static 'keyboard.png' %}" alt="Product 3">
+                <h3>HATOR Rockfall 2 Mecha Orange White</h3>
+                <p>HATOR Rockfall 2 Mecha Orange White</p>
+                <h4>Price: 3000₴</h4>
+                <button>Add to Cart</button>
+            </li>
+            <li>
+                <img src="{% static 'headpones.png' %}" alt="Product 1">
+                <h3>Mchose S9 PRO (The best)</h3>
+                <p>Mchose S9 PRO (The best)</p>
+                <h4>Price: 1500₴</h4>
+                <button>Add to Cart</button>
+            </li>
+            <li>
+                <img src="{% static 'microooo.jpg' %}" alt="Product 1">
+                <h3>micro</h3>
+                <p>micro</p>
+                <h4>Price: 1000₴</h4>
+                <button>Add to Cart</button>
+            </li>
+            <li>
+                <img src="{% static 'palace.jpg' %}" alt="Product 1">
+                <h3>Hator Tonn L</h3>
+                <p>Hator Tonn L</p>
+                <h4>Price: 400₴</h4>
+                <button>Add to Cart</button>
+            </li>
+            <li>
+                <img src="{% static 'palace2.jpg' %}" alt="Product 1">
+                <h3>HATOR TONN eSport L MONTE</h3>
+                <p>HATOR TONN eSport L MONTE </p>
+                <h4>Price: 450₴</h4>
                 <button>Add to Cart</button>
             </li>
         </ul>
@@ -48,21 +87,38 @@
         <h2>Best Sellers</h2>
         <ul>
             <li>
-                <img src="{% static 'headpones.png' %}" alt="Product 1">
-                <h3>Product 4</h3>
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+                <img src="{% static 'palace2.jpg' %}" alt="Product 1">
+                <h3>Product </h3>
+                <p>HATOR TONN eSport L MONTE </p>
+                <h4>Price: 450₴</h4>
                 <button>Add to Cart</button>
             </li>
             <li>
-                <img src="{% static 'headpones.png' %}" alt="Product 2">
-                <h3>Product 5</h3>
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+                <img src="{% static 'palace2.jpg' %}" alt="Product 1">
+                <h3>Product 7</h3>
+                <p>HATOR TONN eSport L MONTE </p>
+                <h4>Price: 450₴</h4>
                 <button>Add to Cart</button>
             </li>
             <li>
-                <img src="{% static 'headpones.png' %}" alt="Product 3">
-                <h3>Product 6</h3>
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+                <img src="{% static 'palace2.jpg' %}" alt="Product 1">
+                <h3>Product 7</h3>
+                <p>HATOR TONN eSport L MONTE </p>
+                <h4>Price: 450₴</h4>
+                <button>Add to Cart</button>
+            </li>
+            <li>
+                <img src="{% static 'palace2.jpg' %}" alt="Product 1">
+                <h3>Product 7</h3>
+                <p>HATOR TONN eSport L MONTE </p>
+                <h4>Price: 450₴</h4>
+                <button>Add to Cart</button>
+            </li>
+            <li>
+                <img src="{% static 'palace2.jpg' %}" alt="Product 1">
+                <h3>Product 7</h3>
+                <p>HATOR TONN eSport L MONTE </p>
+                <h4>Price: 450₴</h4>
                 <button>Add to Cart</button>
             </li>
         </ul>

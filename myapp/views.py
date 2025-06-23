@@ -1,5 +1,8 @@
+from django.contrib.auth import login, authenticate, logout
+from django.contrib.auth.forms import AuthenticationForm
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
+from django.contrib import messages
 from .forms import NewUserForm, LoginForm, AdminForm
 import datetime
 
@@ -37,24 +40,55 @@ def register(request):
         form = NewUserForm(request.POST)
         if form.is_valid():
             user = form.save()
-            return redirect("index")
+            login(request, user)
+            messages.success(request, "Registration successful." )
+            return redirect("main")
+        messages.error(request, "Unsuccessful registration. Invalid information.")
     form = NewUserForm()
     return render(request=request,
                   template_name="register.html",
-                  context={"register_form": form})
+                  context={"register_form": form} )
 
-def login(request):
+def login_p(request):
     if request.method == "POST":
-        form = LoginForm(request.POST)
+        form = AuthenticationForm(data=request.POST)
         if form.is_valid():
-            return redirect("index")
-    form = LoginForm()
+            username = form.cleaned_data.get('username')
+            password = form.cleaned_data.get('password')
+            user = authenticate(username=username, password=password)
+
+            if user is not None:
+                login(request, user)
+                messages.info(request, f"You are now logged in as {username}.")
+                return redirect("main")
+            else:
+                messages.error(request, "Invalid username or password.")
+
+    form = AuthenticationForm()
     return render(request=request,
                   template_name="login.html",
-                  context={"login_form": form})
+                  context={"login_form": form} )
+
 
 def admin(request):
-    form = AdminForm()
+    if request.method == "POST":
+        form = AdminForm(request.POST)
+        print("blalblldfblbdlfbldf")
+        if form.is_valid():
+            form.save()
+            print("? save!")
+            return redirect("main")
+        else:
+            print("? no valid form:")
+            print(form.errors)
+    else:
+        form = AdminForm()
+
+    return render(request, "admin_form.html", {"admin_form": form})
+
+def logout_request(request):
+    logout(request)
+    messages.info(request, "You have successfully logged out.")
     return render(request=request,
-                  template_name="admin_form.html",
-                  context={"admin_form": form})
+                  template_name="logout.html",
+                  )

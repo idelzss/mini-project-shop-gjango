@@ -1,10 +1,18 @@
 {% load static %}
-<h1>Login</h1>
-<link rel="stylesheet" href="{% static 'css/login and reg.css' %}">
-<form method="POST">
-    {% csrf_token %}
-    <div class="login">
-        {{ login_form }}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Login</title>
+    <link rel="stylesheet" href="{% static 'css/login_and_reg.css' %}">
+</head>
+<body>
+    <h3>Login</h3>
+    <form method="POST">
+        {% csrf_token %}
+        <div class="login">
+            {{ login_form.as_p }}
+        </div>
         <button type="submit">Login</button>
-    </div>
-</form>
+    </form>
+</body>
+</html>

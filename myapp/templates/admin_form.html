@@ -1,10 +1,12 @@
 {% load static %}
-<h1>Admin Login</h1>
-<link rel="stylesheet" href="{% static 'css/login and reg.css' %}">
+<h1>Create product</h1>
+<link rel="stylesheet" href="{% static 'css/product_create.css' %}">
 <form method="POST">
     {% csrf_token %}
     <div class="login">
-        {{ admin_form }}
-        <button type="submit">Login</button>
+        {{ admin_form.as_p }}
+    </div>
+    <div class="button-wrapper">
+        <button type="submit" class="create_button">Create</button>
     </div>
 </form>

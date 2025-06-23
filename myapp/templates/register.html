@@ -1,8 +1,15 @@
 {% load static %}
-<h1>Register</h1>
-<link rel="stylesheet" href="{% static 'css/login and reg.css' %}">
-<form method="POST">
-    {% csrf_token %}
-    {{ register_form }}
-    <button type="submit">Register</button>
-</form>
+
+<head>
+    <link rel="stylesheet" href="{% static "bootstrap.min.css" %}">
+</head>
+<body>
+    <div class="container py-5">
+        <h1>Register</h1>
+    <form method="POST">
+        {% csrf_token %}
+        {{ register_form }}
+    <button class="btn-primary btn" type="submit">Register</button>
+    </form>
+    </div>
+</body>
