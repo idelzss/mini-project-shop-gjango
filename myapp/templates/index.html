@@ -29,100 +29,39 @@
         </nav>
     </header>
     <main>
-    <section>
-        <h2>New Arrivals</h2>
-        <ul>
-            <li>
-                <img src="{% static 'monitor.png' %}" alt="Product 1">
-                <h3>monitor</h3>
-                <p>monitor</p>
-                <h4>Price: 5000₴</h4>
-                <button>Add to Cart</button>
-            </li>
-            <li>
-                <img src="{% static 'mouse.png' %}" alt="Product 2">
-                <h3>HATOR Quasar 3 Ultra 8K Wireless White</h3>
-                <p>HATOR Quasar 3 Ultra 8K Wireless White</p>
-                <h4>Price: 2223₴</h4>
-                <button>Add to Cart</button>
-            </li>
-            <li>
-                <img src="{% static 'keyboard.png' %}" alt="Product 3">
-                <h3>HATOR Rockfall 2 Mecha Orange White</h3>
-                <p>HATOR Rockfall 2 Mecha Orange White</p>
-                <h4>Price: 3000₴</h4>
-                <button>Add to Cart</button>
-            </li>
-            <li>
-                <img src="{% static 'headpones.png' %}" alt="Product 1">
-                <h3>Mchose S9 PRO (The best)</h3>
-                <p>Mchose S9 PRO (The best)</p>
-                <h4>Price: 1500₴</h4>
-                <button>Add to Cart</button>
-            </li>
-            <li>
-                <img src="{% static 'microooo.jpg' %}" alt="Product 1">
-                <h3>micro</h3>
-                <p>micro</p>
-                <h4>Price: 1000₴</h4>
-                <button>Add to Cart</button>
-            </li>
-            <li>
-                <img src="{% static 'palace.jpg' %}" alt="Product 1">
-                <h3>Hator Tonn L</h3>
-                <p>Hator Tonn L</p>
-                <h4>Price: 400₴</h4>
-                <button>Add to Cart</button>
-            </li>
-            <li>
-                <img src="{% static 'palace2.jpg' %}" alt="Product 1">
-                <h3>HATOR TONN eSport L MONTE</h3>
-                <p>HATOR TONN eSport L MONTE </p>
-                <h4>Price: 450₴</h4>
-                <button>Add to Cart</button>
-            </li>
-        </ul>
+    {% if user.is_authenticated %}
+<section>
+    <h2>New Arrivals</h2>
+    <ul>
+        {% for i in staff %}
+            {% if i.is_still_new %}
+                <li>
+                    <img src="{{ i.photo }}">
+                    <h1>{{ i.stuff_name }}</h1>
+                    <p>{{ i.stuff_description }}</p>
+                    <h2>Ціна: {{ i.price }}</h2>
+                    <button>Add to Cart</button>
+                </li>
+            {% endif %}
+        {% endfor %}
+    </ul>
     </section>
         <section>
-        <h2>Best Sellers</h2>
+        <h2>All stuff</h2>
         <ul>
-            <li>
-                <img src="{% static 'palace2.jpg' %}" alt="Product 1">
-                <h3>Product </h3>
-                <p>HATOR TONN eSport L MONTE </p>
-                <h4>Price: 450₴</h4>
-                <button>Add to Cart</button>
-            </li>
-            <li>
-                <img src="{% static 'palace2.jpg' %}" alt="Product 1">
-                <h3>Product 7</h3>
-                <p>HATOR TONN eSport L MONTE </p>
-                <h4>Price: 450₴</h4>
-                <button>Add to Cart</button>
-            </li>
-            <li>
-                <img src="{% static 'palace2.jpg' %}" alt="Product 1">
-                <h3>Product 7</h3>
-                <p>HATOR TONN eSport L MONTE </p>
-                <h4>Price: 450₴</h4>
-                <button>Add to Cart</button>
-            </li>
-            <li>
-                <img src="{% static 'palace2.jpg' %}" alt="Product 1">
-                <h3>Product 7</h3>
-                <p>HATOR TONN eSport L MONTE </p>
-                <h4>Price: 450₴</h4>
-                <button>Add to Cart</button>
-            </li>
-            <li>
-                <img src="{% static 'palace2.jpg' %}" alt="Product 1">
-                <h3>Product 7</h3>
-                <p>HATOR TONN eSport L MONTE </p>
-                <h4>Price: 450₴</h4>
-                <button>Add to Cart</button>
-            </li>
-        </ul>
+        {% for i in staff %}
+                <li>
+                    <img src="{{ i.photo }}">
+                    <h1>{{ i.stuff_name }}</h1>
+                    <p>{{ i.stuff_description }}</p>
+                    <h2>Ціна: {{ i.price }}</h2>
+                    <button>Add to Cart</button>
+                </li>
+        {% endfor %}
+    </ul>
     </section>
+    {% endif %}
+    </main>
     <footer>
         <p>&copy; 2023 GoITeens. All rights reserves</p>
     </footer>

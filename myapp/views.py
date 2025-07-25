@@ -3,12 +3,16 @@ from django.contrib.auth.forms import AuthenticationForm
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.contrib import messages
-from .forms import NewUserForm, LoginForm, AdminForm
+from django.core.paginator import Paginator
+from .forms import NewUserForm, LoginForm, AdminForm, StuffForm
 import datetime
+
+from .models import Stuff
 
 
 def index(request):
-    return render(request, 'index.html')
+    all_staff = Stuff.objects.all()
+    return render(request, 'index.html', {"staff" : all_staff})
 
 
 def test(request):
@@ -73,13 +77,10 @@ def login_p(request):
 def admin(request):
     if request.method == "POST":
         form = AdminForm(request.POST)
-        print("blalblldfblbdlfbldf")
         if form.is_valid():
             form.save()
-            print("? save!")
             return redirect("main")
         else:
-            print("? no valid form:")
             print(form.errors)
     else:
         form = AdminForm()
@@ -92,3 +93,26 @@ def logout_request(request):
     return render(request=request,
                   template_name="logout.html",
                   )
+
+
+
+def test_page(request):
+    stuff = Stuff.objects.all()
+    paginator = Paginator(stuff, 3)
+    page_number = request.GET.get("page")
+    page_obj = paginator.get_page(page_number)
+    return render(request, 'test.html', context={"page_obj": page_obj})
+
+
+def create_stuff(request):
+    if request.method == "POST":
+        form = StuffForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect("main")
+        else:
+            print(form.errors)
+    else:
+        form = StuffForm()
+
+    return render(request, "stuff_form.html", {"stuff_form": form})

@@ -35,3 +35,42 @@ class Process_of_taking_book(models.Model):
     literature = models.ForeignKey(Library_literature, on_delete=models.CASCADE, related_name="literatures")
     date_of_giving = models.DateField(blank=False)
     full_name_issued = models.CharField(blank=False)
+
+
+
+class UniversitySport(models.Model):
+    sport_name = models.CharField(blank=False, max_length=100)
+
+
+    def __str__(self):
+        return self.sport_name
+
+
+class Sportsman(models.Model):
+    student = models.OneToOneField(Student, on_delete=models.CASCADE)
+    sport = models.ForeignKey(UniversitySport, on_delete=models.CASCADE)
+
+
+    def __str__(self):
+        return f"{self.student.name} - {self.sport}"
+
+
+
+class University_Competitions(models.Model):
+    name_competitions = models.CharField(blank=False, max_length=100)
+    sport = models.OneToOneField(UniversitySport, on_delete=models.CASCADE)
+    sportsman = models.ManyToManyField(Sportsman)
+    date_start = models.DateField(auto_now_add=True)
+
+
+    def __str__(self):
+        return f"{self.name_competitions}  {self.sport} - {self.date_start}"
+
+
+
+
+
+
+
+
+

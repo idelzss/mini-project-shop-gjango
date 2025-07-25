@@ -1,7 +1,7 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth.models import User
-from .models import administration, product
+from .models import administration, product, Stuff
 
 class NewUserForm(UserCreationForm):
     email = forms.EmailField(required=True)
@@ -34,6 +34,23 @@ class AdminForm(forms.ModelForm):
         widgets = {
             'product_description': forms.Textarea(attrs={'rows': 4}),
         }
+
+
+
+class StuffForm(forms.ModelForm):
+    class Meta:
+        model = Stuff
+        fields = ['stuff_name', 'price', 'stuff_description', 'photo']
+        labels = {
+            'stuff_name': 'Stuff Name',
+            'price': 'Price',
+            'stuff_description': 'Stuff Description',
+            'photo': 'Photo'
+        }
+        widgets = {
+            'stuff_description': forms.Textarea(attrs={'rows': 4}),
+        }
+
 
 
 

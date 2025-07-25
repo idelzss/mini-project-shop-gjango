@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
-
+from django.utils import timezone
+from datetime import timedelta
 
 
 
@@ -19,6 +20,23 @@ class product(models.Model):
     product_name = models.CharField(blank=False, max_length=80)
     product_price = models.IntegerField(blank=False)
     product_description = models.TextField(blank=False)
+
+
+class Stuff(models.Model):
+    stuff_id = models.AutoField(primary_key=True)
+    stuff_name = models.CharField(max_length=30)
+    stuff_description = models.TextField()
+    photo = models.URLField()
+    created_at = models.DateTimeField(auto_now_add=True)
+    price = models.FloatField()
+
+
+    def is_still_new(self):
+        return timezone.now() - self.created_at < timedelta(days=3)
+
+
+    def __str__(self):
+        return self.stuff_name
 
 
 
