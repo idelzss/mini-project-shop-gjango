@@ -76,19 +76,14 @@ body {
 }
 
 h1:not(header h1) {
+    margin: 0;
     text-align: center;
-    margin: 40px auto;
     color: #7f00ff;
     text-shadow: 0px 4px 10px rgba(179, 147, 211, 0.8);
-}
 }
 
-header h1{
-    margin: 0;
-    font-size: 26px;
-    color: #7f00ff;
-    text-shadow: 0px 4px 10px rgba(179, 147, 211, 0.8);
-}
+
+
 
 .background_text {
   display: flex;
@@ -102,5 +97,6 @@ header h1{
   max-width: 800px;
   margin: 0 auto;
   justify-content: space-between;
+  margin-top: 10px;
 }
 

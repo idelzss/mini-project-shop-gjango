@@ -1,12 +1,14 @@
+{% extends "base.html" %}
 {% load static %}
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8" />
-    <link rel="stylesheet" href="{% static 'bootstrap.min.css' %}">
-    <link rel="stylesheet" href="{% static 'style.css' %}">
-    <title>GoITeens</title>
-</head>
+
+
+{% block title %}
+Contact Us
+{% endblock %}
+
+{% block extra_css %}
+{% endblock %}
+{% block content %}
  <body>
   <div class="container">
       <h1>Contact us</h1>
@@ -27,4 +29,4 @@
       </form>
   </div>
  </body>
-</html>
+{% endblock %}

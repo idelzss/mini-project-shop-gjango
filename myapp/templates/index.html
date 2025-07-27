@@ -1,45 +1,33 @@
+{% extends "base.html" %}
 {% load static %}
-<!DOCTYPE html>
-<html lang="en" xmlns="http://www.w3.org/1999/html">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>GoITeens</title>
-  <link rel="stylesheet" href="{% static 'css/style.css' %}">
 
-</head>
-<body>
+{% block title %}
+Main
+{% endblock %}
 
-    <header>
-        <h1>GoITeens Shop</h1>
-        <nav>
-            <ul>
-                <li><a href="/main">Home</a> </li>
-                <li><a href="#">Shop</a> </li>
-                <li><a href="/about">About us</a> </li>
-                <li><a href="#">Contact us</a> </li>
-                {% if user.is_authenticated != True %}
-                    <li><a href="/register/">Register</a></li>
-                    <li><a href="/login/">Login</a></li>
-                {% endif %}
-                {% if user.is_authenticated %}
-                    <li><a href="{% url 'logout' %}">Logout</a></li>
-                {% endif %}
-            </ul>
-        </nav>
-    </header>
-    <main>
-    {% if user.is_authenticated %}
+{% block extra_css %} {% endblock %}
+{% block content %}
+{% if user.is_authenticated %}
+<main>
 <section>
     <h2>New Arrivals</h2>
     <ul>
-        {% for i in staff %}
-            {% if i.is_still_new %}
+        {% for item in page_obj %}
+            {% if item.is_still_new %}
                 <li>
-                    <img src="{{ i.photo }}">
-                    <h1>{{ i.stuff_name }}</h1>
-                    <p>{{ i.stuff_description }}</p>
-                    <h2>Ціна: {{ i.price }}</h2>
+                    <img src="{{ item.photo }}">
+                    <h1>{{ item.stuff_name }}</h1>
+                    <p>{{ item.stuff_description }}</p>
+                    <h2>Ціна: {{ item.price }}</h2>
+                    <p>
+                    {% for star in stars %}
+                        {% if star <= i.rate %}
+                        <span class="star">&#9733;</span>
+                        {% else %}
+                        <span class="star">&#9734;</span>
+                        {% endif %}
+                    {% endfor %}
+                    </p>
                     <button>Add to Cart</button>
                 </li>
             {% endif %}
@@ -49,21 +37,37 @@
         <section>
         <h2>All stuff</h2>
         <ul>
-        {% for i in staff %}
+        {% for item in page_obj %}
                 <li>
-                    <img src="{{ i.photo }}">
-                    <h1>{{ i.stuff_name }}</h1>
-                    <p>{{ i.stuff_description }}</p>
-                    <h2>Ціна: {{ i.price }}</h2>
+                    <img src="{{ item.photo }}">
+                    <h1>{{ item.stuff_name }}</h1>
+                    <p>{{ item.stuff_description }}</p>
+                    <h2>Ціна: {{ item.price }}</h2>
+                    <p>
+                    {% for star in stars %}
+                        {% if star <= i.rate %}
+                        <span class="star">&#9733;</span>
+                        {% else %}
+                        <span class="star">&#9734;</span>
+                        {% endif %}
+                    {% endfor %}
+                    </p>
                     <button>Add to Cart</button>
                 </li>
         {% endfor %}
     </ul>
     </section>
+</main>
+{% endif %}
+<div class="pagination">
+    {% if page_obj.has_previous %}
+        <a href="?page={{ page_obj.previous_page_number }}">← Попередня</a>
     {% endif %}
-    </main>
-    <footer>
-        <p>&copy; 2023 GoITeens. All rights reserves</p>
-    </footer>
-</body>
-</html>
+
+    <span>Сторінка {{ page_obj.number }} з {{ page_obj.paginator.num_pages }}</span>
+
+    {% if page_obj.has_next %}
+        <a href="?page={{ page_obj.next_page_number }}">Наступна →</a>
+    {% endif %}
+</div>
+{% endblock %}

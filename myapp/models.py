@@ -1,3 +1,4 @@
+from django.core.validators import MinValueValidator, MaxValueValidator
 from django.db import models
 from django.contrib.auth.models import User
 from django.utils import timezone
@@ -29,6 +30,7 @@ class Stuff(models.Model):
     photo = models.URLField()
     created_at = models.DateTimeField(auto_now_add=True)
     price = models.FloatField()
+    rate = models.PositiveIntegerField(default=0, validators=[MinValueValidator(1), MaxValueValidator(10)])
 
 
     def is_still_new(self):
