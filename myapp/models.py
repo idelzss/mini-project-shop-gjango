@@ -6,28 +6,13 @@ from datetime import timedelta
 
 
 
-class administration(models.Model):
-    id = models.IntegerField(primary_key=True)
-    login = models.CharField(max_length=25, unique=True)
-    email = models.EmailField(unique=True)
-    password = models.CharField(max_length=20)
-
-
-
-
-
-class product(models.Model):
-    id = models.AutoField(primary_key=True)
-    product_name = models.CharField(blank=False, max_length=80)
-    product_price = models.IntegerField(blank=False)
-    product_description = models.TextField(blank=False)
-
-
 class Stuff(models.Model):
     stuff_id = models.AutoField(primary_key=True)
     stuff_name = models.CharField(max_length=30)
     stuff_description = models.TextField()
     photo = models.URLField()
+    is_top = models.BooleanField(default=False)
+    is_main = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)
     price = models.FloatField()
     rate = models.PositiveIntegerField(default=0, validators=[MinValueValidator(1), MaxValueValidator(10)])
@@ -45,6 +30,6 @@ class Stuff(models.Model):
 class cart(models.Model):
     id = models.IntegerField(primary_key=True)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    product = models.ForeignKey(product, on_delete=models.CASCADE)
+    stuff = models.ForeignKey(Stuff, on_delete=models.CASCADE)
     quantity = models.IntegerField()
     added_at = models.DateTimeField(null=True)

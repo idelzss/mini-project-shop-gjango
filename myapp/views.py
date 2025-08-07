@@ -8,8 +8,8 @@ from django.contrib import messages
 from django.core.paginator import Paginator
 from django.template.loader import render_to_string
 
-from .forms import NewUserForm, LoginForm, AdminForm, StuffForm
-import datetime
+from .forms import NewUserForm, StuffForm
+
 
 from .models import Stuff
 
@@ -31,19 +31,6 @@ def index(request):
     return render(request, 'index.html', context=context)
 
 
-def test(request):
-    return render(request, "test.html")
-
-def test2(request):
-    return render(request, "test2.html")
-
-def test3(request):
-    now = datetime.datetime.now()
-    return HttpResponse(f"{now}")
-
-
-def about(request):
-    return render(request, "about.html")
 
 def contact_us(request):
     return render(request, "contact_us.html")
@@ -67,39 +54,28 @@ def register(request):
     form = NewUserForm()
     return render(request=request,
                   template_name="register.html",
-                  context={"register_form": form} )
+                  context={"register_form": form})
+
 
 def login_p(request):
-    username = "not logged in"
-    auth_form = AuthenticationForm(request.POST)
     if request.method == "POST":
-
-
-        if auth_form.is_valid():
-            username = auth_form.cleaned_data.get("username")
-            password = auth_form.cleaned_data.get("password")
-            authenticate(username=username, password=password)
-
-
-    auth_form = AuthenticationForm()
-    response = render(request, 'login', context={"auth_form": auth_form})
-    response.set_cookie('username', username)
-    response.set_cookie('last_connection', datetime.now())
-    return response
-
-
-def admin(request):
-    if request.method == "POST":
-        form = AdminForm(request.POST)
+        form = AuthenticationForm(data=request.POST)
         if form.is_valid():
-            form.save()
-            return redirect("main")
-        else:
-            print(form.errors)
-    else:
-        form = AdminForm()
+            username = form.cleaned_data.get('username')
+            password = form.cleaned_data.get('password')
+            user = authenticate(username=username, password=password)
 
-    return render(request, "admin_form.html", {"admin_form": form})
+            if user is not None:
+                login(request, user)
+                messages.info(request, f"You are now logged in as {username}.")
+                return redirect("main")
+            else:
+                messages.error(request, "Invalid username or password.")
+
+    form = AuthenticationForm()
+    return render(request=request, template_name="login.html", context={"login_form": form})
+
+
 
 def logout_request(request):
     logout(request)
@@ -111,17 +87,23 @@ def logout_request(request):
 
 
 def create_stuff(request):
-    if request.method == "POST":
-        form = StuffForm(request.POST)
-        if form.is_valid():
-            form.save()
+        if not request.user.is_staff:
             return redirect("main")
-        else:
-            print(form.errors)
-    else:
-        form = StuffForm()
 
-    return render(request, "stuff_form.html", {"stuff_form": form})
+        if request.method == "POST":
+            form = StuffForm(request.POST)
+            if form.is_valid():
+                form.save()
+                return redirect("main")
+            else:
+                print(form.errors)
+        else:
+            form = StuffForm()
+
+        return render(request, "stuff_form.html", {"stuff_form": form})
+
+
+
 
 
 
@@ -153,3 +135,13 @@ def password_reset_request(request):
     return render(request,
                   "password_reset.html",
                   {"password_reset_form": password_reset_form})
+
+
+def admin_top_main_staff(request):
+    if not request.user.is_staff:
+        return redirect("main")
+    else:
+        staff = Stuff.objects.all()
+        return render(request, "admin_top_main_staff.html", context={"staffs": staff})
+
+

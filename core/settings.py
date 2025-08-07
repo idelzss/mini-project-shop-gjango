@@ -42,7 +42,6 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     'myapp',
-    'testapp',
     'university_homework',
 ]
 
@@ -106,6 +105,9 @@ AUTH_PASSWORD_VALIDATORS = [
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
 ]
+
+
+SESSION_ENGINE = "django.contrib.sessions.backends.db"
 
 
 # Internationalization

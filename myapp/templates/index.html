@@ -10,11 +10,11 @@ Main
 {% if user.is_authenticated %}
 <main>
 <section>
-    <h2>New Arrivals</h2>
+    <h2 class="text_for_stuff_column">New Arrivals</h2>
     <ul>
         {% for item in page_obj %}
             {% if item.is_still_new %}
-                <li>
+                <li class="box_for_stuff">
                     <img src="{{ item.photo }}">
                     <h1>{{ item.stuff_name }}</h1>
                     <p>{{ item.stuff_description }}</p>
@@ -35,10 +35,10 @@ Main
     </ul>
     </section>
         <section>
-        <h2>All stuff</h2>
+        <h2 class="text_for_stuff_column">All stuff</h2>
         <ul>
         {% for item in page_obj %}
-                <li>
+                <li class="box_for_stuff">
                     <img src="{{ item.photo }}">
                     <h1>{{ item.stuff_name }}</h1>
                     <p>{{ item.stuff_description }}</p>

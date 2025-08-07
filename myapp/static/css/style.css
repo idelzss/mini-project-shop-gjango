@@ -20,6 +20,17 @@ header {
     padding: 10px;
 }
 
+.box_for_stuff {
+    background-color: gray;
+    padding: 10px;
+    margin: 10px;
+}
+
+.text_for_stuff_column {
+  margin-left: 230px;
+}
+
+
 header h1{
     margin: 0;
     font-size: 26px;
@@ -62,11 +73,7 @@ ul {
     padding: 0;
 }
 
-li{
-    background-color: gray;
-    padding: 10px;
-    margin: 10px;
-}
+
 
 li img {
     width: 250px;
