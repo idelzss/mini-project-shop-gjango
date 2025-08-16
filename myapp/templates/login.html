@@ -1,18 +1,26 @@
+{% extends "base.html" %}
 {% load static %}
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Login</title>
-    <link rel="stylesheet" href="{% static 'css/login_and_reg.css' %}">
-</head>
-<body>
-    <h3>Login</h3>
-    <form method="POST">
-        {% csrf_token %}
-        <div class="login">
+
+{% block title %}
+Login
+{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/login_and_reg.css' %}">
+{% endblock %}
+
+{% block content %}
+<h1>Login</h1>
+<form method="POST">
+    {% csrf_token %}
+    <div class="login">
             {{ login_form.as_p }}
-        </div>
-        <button type="submit">Login</button>
-    </form>
-</body>
-</html>
+    </div>
+    <div class="button-wrapper">
+        <button type="submit" class="create_button">Create</button>
+    </div>
+    <div class="reset_password">
+        <a href="/reset_password/">Forgot your password?</a>
+    </div>
+</form>
+{% endblock %}

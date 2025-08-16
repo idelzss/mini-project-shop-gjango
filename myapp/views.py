@@ -1,12 +1,17 @@
+from datetime import datetime
+
 from django.contrib.auth import login, authenticate, logout
 from django.contrib.auth.forms import AuthenticationForm, PasswordResetForm
 from django.contrib.auth.models import User
+from django.contrib.auth.tokens import default_token_generator
 from django.core.mail import send_mail
 from django.shortcuts import render, redirect
 from django.http import HttpResponse, BadHeaderError
 from django.contrib import messages
 from django.core.paginator import Paginator
 from django.template.loader import render_to_string
+from django.utils.encoding import force_bytes
+from django.utils.http import urlsafe_base64_encode
 
 from .forms import NewUserForm, StuffForm
 
@@ -60,6 +65,8 @@ def register(request):
 def login_p(request):
     if request.method == "POST":
         form = AuthenticationForm(data=request.POST)
+
+
         if form.is_valid():
             username = form.cleaned_data.get('username')
             password = form.cleaned_data.get('password')
@@ -68,12 +75,18 @@ def login_p(request):
             if user is not None:
                 login(request, user)
                 messages.info(request, f"You are now logged in as {username}.")
-                return redirect("main")
+
+                response = redirect("main")
+                response.set_cookie("username", username)
+                response.set_cookie("last_connection", datetime.now())
+
+                return response
             else:
                 messages.error(request, "Invalid username or password.")
 
     form = AuthenticationForm()
     return render(request=request, template_name="login.html", context={"login_form": form})
+
 
 
 
@@ -119,22 +132,23 @@ def password_reset_request(request):
                     email_template_name = "password_reset_email.txt"
                     c = {
                         "email": user.email,
-                        'domain': 'yourdomain.com',
-                        'site_name': 'Your Site Name',
-                        "uid": user.pk,
+                        'domain': '127.0.0.1:8000',
+                        'site_name': 'Idelzss market',
+                        "uid": urlsafe_base64_encode(force_bytes(user.pk)),
                         "user": user,
-                        'token': user.auth_token.key,
+                        'token': default_token_generator.make_token(user),
                         'protocol': 'http',
                     }
                     email = render_to_string(email_template_name, c)
                     try:
-                        send_mail(subject, email, "admin@gmail.com", [user.email], fail_silently=True)
+                        send_mail(subject, email, "carshering.py@gmail.com", [user.email], fail_silently=True)
                     except BadHeaderError:
                         messages.error(request, "Invalid header found.")
     password_reset_form = PasswordResetForm()
     return render(request,
                   "password_reset.html",
                   {"password_reset_form": password_reset_form})
+
 
 
 def admin_top_main_staff(request):

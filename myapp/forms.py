@@ -27,15 +27,17 @@ class LoginForm(AuthenticationForm):
 class StuffForm(forms.ModelForm):
     class Meta:
         model = Stuff
-        fields = ['stuff_name', 'price', 'stuff_description', 'photo']
+        fields = ['stuff_name', 'price', 'stuff_description', 'photo', 'rate']
         labels = {
             'stuff_name': 'Stuff Name',
             'price': 'Price',
             'stuff_description': 'Stuff Description',
-            'photo': 'Photo'
+            'photo': 'Photo',
+            'rate': 'Rate'
         }
         widgets = {
             'stuff_description': forms.Textarea(attrs={'rows': 4}),
+            'rate': forms.Select(choices=[(i,i) for i in range(1, 11)])
         }
 
 

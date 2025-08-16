@@ -1,7 +1,18 @@
+{% extends "base.html" %}
 {% load static %}
 
+{% block title %}
+Register
+{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'bootstrap.min.css' %}">
+<link rel="stylesheet" href="{% static 'css/login_and_reg.css' %}">
+{% endblock %}
+
+{% block content %}
 <head>
-    <link rel="stylesheet" href="{% static "bootstrap.min.css" %}">
+
 </head>
 <body>
     <div class="container py-5">
@@ -13,3 +24,4 @@
     </form>
     </div>
 </body>
+{% endblock %}

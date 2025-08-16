@@ -1,11 +1,36 @@
+html, body {
+    height: 100%;
+    margin: 0;
+}
+
 body {
+    display: flex;
+    flex-direction: column;
     background: #f3f4f6;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* Хедер завжди зверху */
+header {
+    background-color: #333;
+    color: white;
+    padding: 15px;
+}
+
+/* Контент розтягується */
+main {
+    flex: 1;
     display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    margin: 0;
+    justify-content: center; /* центрує форму по горизонталі */
+    align-items: center;     /* центрує форму по вертикалі в межах контенту */
+}
+
+/* Футер завжди знизу */
+footer {
+    background-color: #333;
+    color: white;
+    text-align: center;
+    padding: 15px;
 }
 
 h1 {

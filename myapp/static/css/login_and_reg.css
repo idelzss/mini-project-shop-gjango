@@ -1,11 +1,36 @@
+html, body {
+    height: 100%;
+    margin: 0;
+}
+
 body {
+    display: flex;
+    flex-direction: column;
     background: #f3f4f6;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* Хедер завжди зверху */
+header {
+    background-color: #333;
+    color: white;
+    padding: 15px;
+}
+
+/* Контент розтягується */
+main {
+    flex: 1;
     display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    margin: 0;
+    justify-content: center; /* центрує форму по горизонталі */
+    align-items: center;     /* центрує форму по вертикалі в межах контенту */
+}
+
+/* Футер завжди знизу */
+footer {
+    background-color: #333;
+    color: white;
+    text-align: center;
+    padding: 15px;
 }
 
 h1 {
@@ -36,33 +61,16 @@ form {
     font-size: 16px;
 }
 
-.login button {
-    background-color: #3b82f6;
-    color: white;
-    padding: 10px 15px;
-    border: none;
-    border-radius: 8px;
-    font-size: 16px;
-    cursor: pointer;
-    transition: background-color 0.2s ease;
-}
-
-.login button:hover {
-    background-color: #2563eb;
-}
-
 .button-wrapper {
     display: flex;
     justify-content: center;
-    margin-top: 50px;
-}
-
+    margin-top: 30px;
 }
 
 .create_button {
     background-color: #3b82f6;
     color: white;
-    padding: 10px 15px;
+    padding: 20px 95px;
     border: none;
     border-radius: 8px;
     font-size: 16px;
