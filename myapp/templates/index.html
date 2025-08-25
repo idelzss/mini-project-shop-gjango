@@ -10,7 +10,8 @@ Main
 {% if user.is_authenticated %}
 <main>
 <section>
-    <h2 class="text_for_stuff_column">New Arrivals</h2>
+
+    <h2 class="text_for_stuff_column">New staff</h2>
     <ul>
         {% for item in page_obj %}
             {% if item.is_still_new %}
@@ -28,7 +29,10 @@ Main
                         {% endif %}
                     {% endfor %}
                     </p>
-                    <button>Add to Cart</button>
+                    <form method="POST" action="{% url 'add_to_cart' item.stuff_id %}">
+                        {% csrf_token %}
+                        <button type="submit">Add to Cart</button>
+                    </form>
                 </li>
             {% endif %}
         {% endfor %}
@@ -52,7 +56,10 @@ Main
                         {% endif %}
                     {% endfor %}
                     </p>
-                    <button>Add to Cart</button>
+                    <form method="POST" action="{% url 'add_to_cart' item.stuff_id %}">
+                        {% csrf_token %}
+                        <button type="submit">Add to Cart</button>
+                    </form>
                 </li>
         {% endfor %}
     </ul>

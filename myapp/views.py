@@ -1,34 +1,34 @@
 from datetime import datetime
-
+import logging
 from django.contrib.auth import login, authenticate, logout
 from django.contrib.auth.forms import AuthenticationForm, PasswordResetForm
 from django.contrib.auth.models import User
 from django.contrib.auth.tokens import default_token_generator
 from django.core.mail import send_mail
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse, BadHeaderError
 from django.contrib import messages
 from django.core.paginator import Paginator
 from django.template.loader import render_to_string
 from django.utils.encoding import force_bytes
 from django.utils.http import urlsafe_base64_encode
-
+from django.views.decorators.cache import cache_page
 from .forms import NewUserForm, StuffForm
+from .models import Stuff, Cart, CartItem
 
-
-from .models import Stuff
+logger = logging.getLogger(__name__)
 
 
 def index(request):
     staff = Stuff.objects.all()
-    paginator = Paginator(staff, 2)
+    paginator = Paginator(staff, 5)
     page_number = request.GET.get("page")
     page_obj = paginator.get_page(page_number)
 
 
     context = {
         "staff": staff,
-        "stars":   range(1, 11),
+        "stars": range(1, 11),
         "page_obj": page_obj,
     }
 
@@ -43,7 +43,59 @@ def contact_us(request):
 def about_me(request):
     return render(request, "about_me.html")
 
+def view_cart(request):
+    cart, created = Cart.objects.get_or_create(user=request.user)
+    return render(request, "cart.html",  context={"cart": cart})
 
+def add_to_cart(request, product_id):
+    product = get_object_or_404(Stuff, pk=product_id)
+
+    cart, created = Cart.objects.get_or_create(user=request.user)
+
+    cart_item, created = CartItem.objects.get_or_create(cart=cart, stuff=product)
+
+    if not created:
+        cart_item.quantity += 1
+        cart_item.save()
+
+    return redirect("view_cart")
+
+def remove_from_cart(request, item_id):
+    item = get_object_or_404(CartItem, id=item_id, cart__user=request.user)
+    if item.quantity > 1:
+        item.quantity -= 1
+        item.save()
+    else:
+        item.delete()
+    return redirect("view_cart")
+
+
+
+def admin_panel(request):
+    if not request.user.is_staff:
+        return redirect("main")
+    else:
+        all_staff = Stuff.objects.all()
+        paginator = Paginator(all_staff, 10)
+        page_number = request.GET.get("page")
+        page_obj = paginator.get_page(page_number)
+
+
+        context = {
+            "staff": all_staff,
+            "stars":   range(1, 11),
+            "page_obj": page_obj,
+        }
+
+
+        return render(request, 'admin_panel.html', context=context)
+
+def delete_staff(request, staff_id):
+    if not request.user.is_staff:
+        return redirect("main")
+    staff = get_object_or_404(Stuff, stuff_id=staff_id)
+    staff.delete()
+    return redirect("admin_panel")
 
 
 
@@ -116,9 +168,20 @@ def create_stuff(request):
         return render(request, "stuff_form.html", {"stuff_form": form})
 
 
+def redact_stuff(request, stuff_id):
+        if not request.user.is_staff:
+            return redirect("main")
 
+        stuff = get_object_or_404(Stuff, stuff_id=stuff_id)
+        if request.method == "POST":
+            form = StuffForm(request.POST, instance=stuff)
+            if form.is_valid():
+                form.save()
+                return redirect("admin_panel")
+        else:
+            form = StuffForm(instance=stuff)
 
-
+        return render(request, "redact_stuff.html", {"redact_form": form})
 
 def password_reset_request(request):
     if request.method == "POST":

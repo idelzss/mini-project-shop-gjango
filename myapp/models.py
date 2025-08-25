@@ -8,14 +8,14 @@ from datetime import timedelta
 
 class Stuff(models.Model):
     stuff_id = models.AutoField(primary_key=True)
-    stuff_name = models.CharField(max_length=30)
-    stuff_description = models.TextField()
-    photo = models.URLField()
+    stuff_name = models.CharField(max_length=30, blank=True)
+    stuff_description = models.TextField(blank=True)
+    photo = models.URLField(blank=True)
     is_top = models.BooleanField(default=False)
     is_main = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)
-    price = models.FloatField()
-    rate = models.PositiveIntegerField(default=0, validators=[MinValueValidator(1), MaxValueValidator(10)])
+    price = models.FloatField(blank=True, null=True)
+    rate = models.PositiveIntegerField(default=0, validators=[MinValueValidator(1), MaxValueValidator(10)], blank=True, null=True)
 
 
     def is_still_new(self):
@@ -27,9 +27,26 @@ class Stuff(models.Model):
 
 
 
-class cart(models.Model):
-    id = models.IntegerField(primary_key=True)
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+
+class Cart(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name="cart")
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def total_price(self):
+        return sum(item.total_price() for item in self.items.all())
+
+    def __str__(self):
+        return f"Cart of {self.user.username}"
+
+
+class CartItem(models.Model):
+    cart = models.ForeignKey(Cart, related_name="items", on_delete=models.CASCADE)
     stuff = models.ForeignKey(Stuff, on_delete=models.CASCADE)
-    quantity = models.IntegerField()
-    added_at = models.DateTimeField(null=True)
+    quantity = models.PositiveIntegerField(default=1)
+    added_at = models.DateTimeField(auto_now_add=True)
+
+    def total_price(self):
+        return self.stuff.price * self.quantity
+
+    def __str__(self):
+        return f"{self.stuff.stuff_name} ({self.quantity})"

@@ -1,7 +1,32 @@
 from django.contrib import admin
+from .models import Stuff, Cart, CartItem
 
-from .models import cart, Stuff
-
-admin.site.register(cart)
+admin.site.register(CartItem)
+admin.site.register(Cart)
 admin.site.register(Stuff)
 
+
+
+from django.contrib import admin
+
+
+# @admin.register(Stuff)
+# class MyModelAdmin(admin.ModelAdmin):
+#     list_display = ('name', 'author')
+#     list_filter = ('author',)
+#     search_fields = ('name', 'author')
+#     list_editable = ('name')
+#
+#     fieldsets = (
+#         (
+#             "Main", {
+#                 'fields': ('name', 'author')
+#             }
+#         ),
+#         (
+#             "Secondary", {
+#                 "fields": ('number',)
+#             }
+#         )
+#     )
+#

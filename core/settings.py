@@ -41,8 +41,9 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'myapp.apps.MyappConfig',
 
-    'myapp',
+    'captcha',
     'university_homework',
 ]
 
@@ -109,6 +110,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 
 SESSION_ENGINE = "django.contrib.sessions.backends.db"
+SESSION_SERIALIZER = "django.contrib.sessions.serializers.JSONSerializer"
 
 
 # Internationalization
@@ -122,7 +124,15 @@ EMAIL_HOST_USER = os.getenv("EMAIL_HOST_USER")
 EMAIL_HOST_PASSWORD = os.getenv("EMAIL_HOST_PASSWORD")
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 
+# CACHE
 
+CACHES = {
+    "default": {
+        "BACKEND": "django.core.cache.backends.db.DatabaseCache",
+        "LOCATION": "cache_table",
+        "TIMEOUT": 0,
+    }
+}
 
 LANGUAGE_CODE = 'en-us'
 
@@ -146,6 +156,33 @@ STATICFILES_DIRS = [
     BASE_DIR / 'myapp' / 'static' / 'img',
     BASE_DIR / 'myapp' / 'static' / 'bootstrap' / 'css',
 ]
+
+# LOGGING = {
+#     "version": 1,
+#     "disable_existing_loggers": True,
+#     "formatters": {
+#         "simple": {
+#             "format": "{levelname} {message}",
+#             "style": "{",
+#         },
+#         "verbose": {
+#             "format": "{levelname} {asctime} {name} {message}",
+#             "style": "{"
+#         },
+#         "handlers": {
+#             "console": {
+#                 "class": "logging.StreamHandler",
+#                 "formatter": "verbose",
+#             },
+#             "file": {
+#                 "class": "logging.FileHandler",
+#                 "filename": "debug.log",
+#                 "formatter": "simple",
+#
+#             }
+#         }
+#     }
+# }
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field

@@ -27,6 +27,7 @@ class LoginForm(AuthenticationForm):
 class StuffForm(forms.ModelForm):
     class Meta:
         model = Stuff
+
         fields = ['stuff_name', 'price', 'stuff_description', 'photo', 'rate']
         labels = {
             'stuff_name': 'Stuff Name',
