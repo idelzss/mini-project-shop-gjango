@@ -1,0 +1,57 @@
+[
+  {
+    "id": "1",
+    "student": {
+      "name": "Іван",
+      "lastname": "Коваль"
+    },
+    "mail": "ivan.koval@example.com",
+    "phone": "+380971112233",
+    "speciality": "Програмна Інженерія",
+    "student_card_number": "2"
+  },
+  {
+    "id": "2",
+    "student": {
+      "name": "Марія",
+      "lastname": "Шевченко"
+    },
+    "mail": "maria.shevchenko@example.com",
+    "phone": "+380631234567",
+    "speciality": "Комп'ютерні науки",
+    "student_card_number": "15"
+  },
+  {
+    "id": "3",
+    "student": {
+      "name": "Олег",
+      "lastname": "Бондаренко"
+    },
+    "mail": "oleg.bondarenko@example.com",
+    "phone": "+380501234567",
+    "speciality": "Кібербезпека",
+    "student_card_number": "27"
+  },
+  {
+    "id": "4",
+    "student": {
+      "name": "Наталія",
+      "lastname": "Мельник"
+    },
+    "mail": "nataliia.melnyk@example.com",
+    "phone": "+380671112233",
+    "speciality": "Математика та інформатика",
+    "student_card_number": "34"
+  },
+  {
+    "id": "5",
+    "student": {
+      "name": "Андрій",
+      "lastname": "Сидоренко"
+    },
+    "mail": "andrii.sydorenko@example.com",
+    "phone": "+380931234567",
+    "speciality": "Інженерія програмного забезпечення",
+    "student_card_number": "48"
+  }
+]
